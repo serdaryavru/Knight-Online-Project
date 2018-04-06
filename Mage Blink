@@ -1,0 +1,20 @@
+bool MagicInstance::ExecuteType8()
+
+case 20:
+{
+      //Blink TP skill fixed Problem Test Code
+			float warp_x = pTUser->GetX() - TO_USER(pTUser)->m_oldx,warp_z = pTUser->GetZ() - TO_USER(pTUser)->m_oldz;
+			float	distance = sqrtf(warp_x*warp_x + warp_z*warp_z);
+      
+			if (distance == 0.0f)
+					goto packet_send;
+
+				warp_x /= distance; warp_z /= distance;
+				warp_x *= pType->sRadius; warp_z *= pType->sRadius;
+				warp_x += TO_USER(pTUser)->m_oldx; warp_z += TO_USER(pTUser)->m_oldz;
+
+				sData[1] = 1;
+				BuildAndSendSkillPacket(*itr, true, sCasterID, (*itr)->GetID(), bOpcode, nSkillID, sData);
+				TO_USER(pTUser)->Warp(uint16(warp_x * 10), uint16(warp_z * 10));
+			}
+      break;
